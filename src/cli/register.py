@@ -208,6 +208,9 @@ class Register(object):
                 if len(line) == 192 and line.find(' ') == -1:
                     return regname, line
 
+        logger.error('please make sure the activation file is '
+                     'pure text file, the content starts with `Dear `, '
+                     'and includes one activation code in one line')
         raise CliError('invalid activation file "%s"' % filename)
 
     def _register_offline_license(self, fzip, namelist):
@@ -817,7 +820,7 @@ class WebRegister(Register):
         ucode = reginfo['ucode']
         rcode = reginfo['rcode']
         if len(ucode) != 192:
-            raise CliError('invalid registration file "%s"', regfile)
+            raise CliError('invalid ci registration file "%s"', regfile)
 
         url = self.regurl('ci/%s' % ucode)
         paras = ('rev', str(rev)), ('cirev', str(cirev))
